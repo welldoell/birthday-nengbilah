@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-animation-version="3">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -196,10 +196,8 @@
     .card-top span:last-child { text-align: right; }
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 365px);
-      align-items: center;
-      gap: clamp(18px, 5vw, 65px);
-      padding-block: clamp(20px, 4vw, 42px);
+      grid-template-columns: minmax(0, 1fr);
+      padding-block: clamp(24px, 5vw, 54px);
     }
 
     .hero-copy { position: relative; }
@@ -214,33 +212,143 @@
     .hero-note { margin: 14px 0 0; color: #6a4344; font-size: .93rem; }
     #confetti { pointer-events: none; position: absolute; inset: 0; width: 100%; height: 100%; }
 
-    .soundtrack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
-    .soundtrack-head {
+    #story { padding-bottom: 76px; }
+    .story-shell { width: min(100%, 650px); }
+    .story-panel {
+      min-height: 338px;
+      display: grid;
+      align-items: center;
+      padding: clamp(25px, 6vw, 52px);
+      border: 1px solid #72505d;
+      border-radius: 19px;
+      background: #201720;
+      box-shadow: 0 24px 85px #100a10ac, 0 0 48px #fe8baa14;
+    }
+    .scene h2 {
+      margin: 0;
+      color: var(--pink);
+      font: 400 clamp(2.25rem, 7vw, 4rem)/1.03 var(--serif);
+      letter-spacing: -.048em;
+    }
+    .scene p {
+      margin: 12px 0 0;
+      color: #fff2eb;
+      font-size: clamp(1rem, 2.6vw, 1.23rem);
+      line-height: 1.5;
+    }
+    .scene .chat-bubble {
+      width: fit-content;
+      padding: 13px 17px;
+      border-radius: 12px 12px 3px 12px;
+      background: #ffcad0;
+      color: #391e27;
+    }
+    .scene .mock-send {
+      display: inline-block;
+      padding: 7px 11px;
+      border: 1px solid #8f6272;
+      border-radius: 7px;
+      color: #ffcad0;
+      font: 700 .8rem var(--mono);
+    }
+    .scene [data-beat] { animation: scene-in .48s ease both; }
+    .scene .chat-bubble {
+      min-height: 3.2em;
+      max-width: 32ch;
+    }
+    .chat-caret {
+      display: inline-block;
+      height: 1em;
+      margin-left: 2px;
+      border-right: 2px solid currentColor;
+      vertical-align: -.13em;
+      animation: blink .7s step-end infinite;
+    }
+    .scene .mock-send.is-pressed {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: #391e27;
+      animation: send-press .34s ease both;
+    }
+    @keyframes send-press { 45% { transform: scale(.91); } }
+    .scene .send-note {
+      display: inline-block;
+      margin-left: 10px;
+      color: #e2bac7;
+      font: .79rem var(--mono);
+    }
+
+    .reveal-card .hero-copy { animation: scene-in .58s ease both; }
+    .reveal-card .photo { animation: scene-in .65s .55s ease both; }
+    .reveal-card .letter { animation: scene-in .55s 1.05s ease both; }
+    .reveal-card .letter [data-reveal] {
+      animation: scene-in .55s var(--reveal-delay) ease both;
+    }
+    .replay-story {
+      display: block;
+      width: fit-content;
+      min-height: 44px;
+      margin: 4px auto 0;
+      padding: 8px 10px;
+      border: 0;
+      background: transparent;
+      color: var(--berry);
+      font: 700 .78rem var(--mono);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+    @keyframes scene-in {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .story-controls {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 4px 14px;
-      color: var(--berry);
-      font-size: .79rem;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
     }
-
-    .soundtrack-head strong { font-family: var(--mono); text-transform: uppercase; letter-spacing: .09em; }
-    .soundtrack-help { margin: 0; color: #6a4344; font-size: .78rem; }
-    .soundtrack a { width: fit-content; color: var(--berry); font-size: .78rem; text-underline-offset: 3px; }
-    .player {
-      display: grid;
-      place-items: center;
-      width: 100%;
-      min-height: 200px;
-      aspect-ratio: 16 / 9;
-      background: #221820;
-      color: #fff2eb;
-      border-radius: 10px;
+    .story-controls .system-footer { margin: 0; }
+    .skip-story {
+      min-height: 44px;
+      padding: 8px 3px;
+      border: 0;
+      background: transparent;
+      color: #ffcad0;
+      font: .83rem var(--mono);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
     }
-
-    .player iframe { display: block; width: 100%; height: 100%; min-height: 200px; border: 0; }
-    .player p { margin: 0; padding: 10px; font: .78rem var(--mono); }
+    .music-dock {
+      position: fixed;
+      z-index: 2;
+      right: max(12px, env(safe-area-inset-right));
+      bottom: max(12px, env(safe-area-inset-bottom));
+    }
+    .music-toggle {
+      display: block;
+      min-height: 44px;
+      padding: 8px 14px;
+      border: 1px solid #8b5669;
+      border-radius: 999px;
+      background: #392530;
+      color: #ffe1e3;
+      box-shadow: 0 4px 18px #25152135;
+      font: 700 .78rem var(--mono);
+      cursor: pointer;
+    }
+    .music-toggle:hover { background: #502e40; }
+    .music-status:not(:empty) {
+      width: fit-content;
+      margin: 0 0 6px auto;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: #392530;
+      color: #ffe1e3;
+      font-size: .75rem;
+    }
 
     .keepsake {
       display: grid;
@@ -284,7 +392,7 @@
     .letter p.signature { margin: 21px 0 0; color: var(--berry); font: italic 1.28rem/1.35 var(--serif); }
     .card-footer {
       border-top: 1px solid var(--rule);
-      padding-block: 16px 24px;
+      padding-block: 16px 76px;
       color: #6a4344;
       font: .75rem var(--mono);
       text-align: center;
@@ -303,11 +411,10 @@
     }
 
     @media (max-width: 680px) {
-      .hero, .keepsake { grid-template-columns: minmax(0, 1fr); }
+      .keepsake { grid-template-columns: minmax(0, 1fr); }
       .hero h1 { font-size: clamp(2.9rem, 11vw, 4.7rem); }
       .hero h1 em { display: block; }
       .card-top { padding-block: 12px; }
-      .soundtrack { width: min(100%, 460px); }
       .photo { width: min(100%, 460px); justify-self: center; }
     }
 
@@ -319,7 +426,6 @@
     <style>
       #intro { display: none !important; }
       #birthday[hidden] { display: block !important; }
-      #music-player, #music-help { display: none; }
     </style>
   </noscript>
 </head>
@@ -356,12 +462,44 @@
             <button class="launch" id="open-surprise" type="button">
               Open my surprise <span aria-hidden="true">↗</span>
             </button>
-            <p class="sound-hint">Sound on for the birthday song.</p>
+            <p class="sound-hint">Sound on. A little story plays one line at a time.</p>
           </div>
         </div>
         <div class="system-footer" aria-hidden="true">
           <span>Sent by AA</span>
           <span>♥ &nbsp; Made for Neng</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro" id="story" aria-labelledby="story-title" hidden>
+      <div class="story-shell">
+        <h1 class="system-label" id="story-title" tabindex="-1">
+          <span><span class="signal" aria-hidden="true"></span>A message from AA</span>
+          <span aria-hidden="true">02 / 02</span>
+        </h1>
+        <div class="story-panel" aria-live="polite" aria-atomic="true">
+          <div class="scene" hidden>
+            <h2 data-beat>Hey, Neng Bilah.</h2>
+            <p data-beat id="story-setup" hidden>I almost sent you a regular birthday text.</p>
+          </div>
+          <div class="scene" hidden>
+            <h2 data-beat>Here’s the draft.</h2>
+            <p class="chat-bubble" data-beat id="draft-bubble" hidden>
+              <span class="sr-only" id="draft-message">Happy birthday, Neng! Hope you have a great day! 🎂</span>
+              <span id="draft-typed" aria-hidden="true"></span><span class="chat-caret" id="draft-caret" aria-hidden="true"></span>
+            </p>
+            <p class="mock-send" data-beat id="draft-send" aria-hidden="true" hidden>Send ↗</p>
+            <p class="send-note" data-beat id="draft-status" hidden>Draft only.</p>
+          </div>
+          <div class="scene" hidden>
+            <h2 data-beat>I even had my thumb on Send.</h2>
+            <p data-beat id="story-turn" hidden>Then I remembered I know just enough HTML to make this a whole thing.</p>
+          </div>
+        </div>
+        <div class="story-controls">
+          <p class="system-footer" aria-hidden="true">Draft · <span id="scene-number">1 / 3</span></p>
+          <button class="skip-story" id="skip-story" type="button">Skip to the card</button>
         </div>
       </div>
     </section>
@@ -376,20 +514,9 @@
           <div class="hero-copy">
             <p class="eyebrow">To Neng Bilah, from AA</p>
             <h1 id="birthday-title" tabindex="-1">Happy birthday, <em>Neng Bilah!</em></h1>
-            <p class="hero-note">One photo. One note. One very necessary birthday song.</p>
+            <p class="hero-note">One photo. One note. And a little something from AA.</p>
             <canvas id="confetti" aria-hidden="true"></canvas>
           </div>
-          <section class="soundtrack" aria-label="Birthday soundtrack">
-            <div class="soundtrack-head">
-              <strong>Birthday soundtrack</strong>
-              <span lang="id">Jamrud · Selamat Ulang Tahun</span>
-            </div>
-            <div class="player" id="music-player">
-              <p>Getting your birthday song ready…</p>
-            </div>
-            <p class="soundtrack-help" id="music-help">If the song doesn’t start, tap Play.</p>
-            <a href="https://youtu.be/IzvZ0gOXiNA" target="_blank" rel="noopener">Open song on YouTube</a>
-          </section>
         </div>
 
         <div class="keepsake">
@@ -398,30 +525,56 @@
               alt="A mirror selfie together in a round red mirror.">
             <figcaption>
               <span class="frame-label">Photo 01</span>
-              Still one of my favorite photos of us.
+              Also, I really wanted an excuse to put this photo on the internet.
+              Okay, mostly I just wanted to make you smile.
             </figcaption>
           </figure>
           <section class="letter" aria-labelledby="letter-title">
             <p class="letter-label">A note from AA</p>
             <h2 id="letter-title">Dear Neng Bilah,</h2>
-            <p>I was going to send you a normal birthday text, but then I thought, “Why text her when I can make her click a button?” So here we are.</p>
-            <p>I hope this year brings you more blessings, fewer things to stress about, and more days you actually look forward to. <span lang="id">Semoga semua urusan Neng makin lancar dan Neng makin semangat menjalani hari-harinya.</span></p>
-            <p>And yes, may you get even prettier. Honestly, you’re making that wish a little unrealistic.</p>
-            <p class="wish" lang="id">Neng yang doa, AA yang amin dari sini. 🤍</p>
-            <p class="signature">Love,<br>AA</p>
+            <p data-reveal style="--reveal-delay: 1.35s">More blessings, smoother days, and plenty of reasons to wake up excited for what’s ahead.</p>
+            <p data-reveal style="--reveal-delay: 1.85s">And even prettier? Honestly, you’re already making it hard for me to concentrate.</p>
+            <p class="wish" data-reveal style="--reveal-delay: 2.45s" lang="id">Neng yang doa, AA yang amin dari sini. 🤍</p>
+            <p class="signature" data-reveal style="--reveal-delay: 2.95s">Love,<br>AA</p>
           </section>
         </div>
-        <footer class="card-footer">End of message &nbsp; ♥ &nbsp; From AA</footer>
+        <footer class="card-footer">
+          End of message &nbsp; ♥ &nbsp; From AA
+          <button class="replay-story" id="replay-story" type="button" hidden>Replay the surprise</button>
+        </footer>
       </div>
     </article>
   </main>
+  <div class="music-dock" id="music-dock" hidden>
+    <audio id="birthday-track" src="./birthday-track.mp3" preload="metadata"></audio>
+    <p class="music-status" id="music-status" role="status"></p>
+    <button class="music-toggle" id="music-toggle" type="button">
+      <span aria-hidden="true">♪</span> <span id="music-label">Play music</span>
+    </button>
+  </div>
   <script>
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const intro = document.getElementById("intro");
     const birthday = document.getElementById("birthday");
     const openButton = document.getElementById("open-surprise");
     const birthdayTitle = document.getElementById("birthday-title");
-    const musicPlayer = document.getElementById("music-player");
+    const story = document.getElementById("story");
+    const scenes = [...story.querySelectorAll(".scene")];
+    const audio = document.getElementById("birthday-track");
+    const musicDock = document.getElementById("music-dock");
+    const musicToggle = document.getElementById("music-toggle");
+    const musicLabel = document.getElementById("music-label");
+    const musicStatus = document.getElementById("music-status");
+    const setupLine = document.getElementById("story-setup");
+    const turnLine = document.getElementById("story-turn");
+    const draftBubble = document.getElementById("draft-bubble");
+    const draftMessage = document.getElementById("draft-message").textContent;
+    const draftTyped = document.getElementById("draft-typed");
+    const draftCaret = document.getElementById("draft-caret");
+    const draftSend = document.getElementById("draft-send");
+    const draftStatus = document.getElementById("draft-status");
+    const replayButton = document.getElementById("replay-story");
+    let storyRun;
     const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
     async function typeLine(element, message) {
@@ -442,39 +595,110 @@
       await typeLine(document.getElementById("log-sender"), "From AA, obviously.");
     }
 
-    function loadMusic(autoplay) {
-      const frame = document.createElement("iframe");
-      const params = new URLSearchParams({ autoplay: autoplay ? "1" : "0", playsinline: "1" });
-      frame.src = "https://www.youtube-nocookie.com/embed/IzvZ0gOXiNA?" + params;
-      frame.title = "Jamrud · Selamat Ulang Tahun";
-      frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-      frame.allowFullscreen = true;
-      frame.referrerPolicy = "strict-origin-when-cross-origin";
-      musicPlayer.replaceChildren(frame);
+    async function playMusic() {
+      musicStatus.textContent = "";
+      try {
+        await audio.play();
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        musicStatus.textContent = audio.error ? "Birthday track unavailable." : "Tap Play music to listen.";
+      }
     }
 
-    function startSoundtrack() {
-      // A local file has no HTTP referrer for YouTube. Keep the song link usable there.
-      if (location.protocol === "file:") {
-        musicPlayer.hidden = true;
-        document.getElementById("music-help").hidden = true;
+    function syncMusicLabel() {
+      musicLabel.textContent = audio.paused || audio.ended ? "Play music" : "Pause music";
+    }
+
+    for (const event of ["play", "pause", "ended", "error"]) {
+      audio.addEventListener(event, syncMusicLabel);
+    }
+    audio.addEventListener("playing", () => { musicStatus.textContent = ""; });
+
+    musicToggle.addEventListener("click", () => {
+      if (audio.paused || audio.ended) {
+        playMusic();
+      } else {
+        audio.pause();
+      }
+    });
+
+    function showCard(animate) {
+      storyRun.abort();
+      story.hidden = true;
+      birthday.classList.toggle("reveal-card", animate);
+      birthday.hidden = false;
+      replayButton.hidden = false;
+      document.title = "Happy birthday, Neng Bilah!";
+      document.querySelector('meta[name="theme-color"]').content = "#fff6ec";
+      window.scrollTo(0, 0);
+      birthdayTitle.focus({ preventScroll: true });
+      celebrate();
+    }
+
+    function showScene(index) {
+      scenes.forEach((scene, position) => { scene.hidden = index !== position; });
+      document.getElementById("scene-number").textContent = (index + 1) + " / " + scenes.length;
+    }
+
+    async function typeDraft(signal) {
+      if (reducedMotion.matches) {
+        draftTyped.textContent = draftMessage;
         return;
       }
 
-      const rect = musicPlayer.getBoundingClientRect();
-      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-      if (visibleHeight > rect.height / 2) {
-        loadMusic(true);
-      } else if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.intersectionRatio < 0.51) return;
-          observer.disconnect();
-          loadMusic(true);
-        }, { threshold: 0.51 });
-        observer.observe(musicPlayer);
-      } else {
-        loadMusic(false);
+      let displayed = "";
+      for (const character of draftMessage) {
+        if (signal.aborted) return;
+        displayed += character;
+        draftTyped.textContent = displayed;
+        await delay(36);
       }
+    }
+
+    async function playStory() {
+      storyRun = new AbortController();
+      const { signal } = storyRun;
+      const canContinue = async (ms) => {
+        await delay(ms);
+        return !signal.aborted;
+      };
+
+      for (const beat of [setupLine, turnLine, draftBubble, draftSend, draftStatus]) {
+        beat.hidden = true;
+      }
+      draftTyped.textContent = "";
+      draftCaret.hidden = false;
+      draftSend.classList.remove("is-pressed");
+
+      birthday.hidden = true;
+      story.hidden = false;
+      showScene(0);
+      document.title = "A little birthday surprise";
+      document.querySelector('meta[name="theme-color"]').content = "#1b151b";
+      window.scrollTo(0, 0);
+      document.getElementById("story-title").focus({ preventScroll: true });
+
+      if (!await canContinue(1000)) return;
+      setupLine.hidden = false;
+      if (!await canContinue(2350)) return;
+
+      showScene(1);
+      if (!await canContinue(550)) return;
+      draftBubble.hidden = false;
+      await typeDraft(signal);
+      if (signal.aborted) return;
+      draftCaret.hidden = true;
+      draftSend.hidden = false;
+      if (!await canContinue(700)) return;
+      draftSend.classList.add("is-pressed");
+      if (!await canContinue(400)) return;
+      draftStatus.hidden = false;
+      if (!await canContinue(1200)) return;
+
+      showScene(2);
+      if (!await canContinue(1400)) return;
+      turnLine.hidden = false;
+      if (await canContinue(3300)) showCard(true);
     }
 
     function celebrate() {
@@ -526,15 +750,14 @@
       requestAnimationFrame(paint);
     }
 
+    document.getElementById("skip-story").addEventListener("click", () => showCard(false));
+    replayButton.addEventListener("click", playStory);
+
     openButton.addEventListener("click", () => {
+      musicDock.hidden = false;
+      playMusic();
       intro.hidden = true;
-      birthday.hidden = false;
-      document.title = "Happy birthday, Neng Bilah!";
-      document.querySelector('meta[name="theme-color"]').content = "#fff6ec";
-      window.scrollTo(0, 0);
-      birthdayTitle.focus({ preventScroll: true });
-      startSoundtrack();
-      celebrate();
+      playStory();
     }, { once: true });
 
     writeTerminalLog();
